@@ -93,4 +93,5 @@ if __name__ == '__main__':
     print("current os is:" + sys_name + "\nwhere is host:" + hosts)
     github_urls = get_url()
     ips = get_ip(github_urls)
+    print(ips)
     update_host_file(hosts,github_urls,ips)
