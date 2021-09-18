@@ -1,4 +1,4 @@
-import platform, socket , time
+import platform, socket, time, os
 
 
 def get_url():
@@ -75,10 +75,11 @@ def update_host_file(hosts,urls,ips):
         hosts_file.writelines(lines)
         hosts_file.close()
         print("更新成功")
+        return 1
     else:
         print("请在hosts文件中添加一行# Github Hosts 和一行# End of the Github Hosts section 表明Github映射块"
               +"\n例如hosts文件中应该有如下两行:\n # Github Hosts \n # End of the Github Hosts section ")
-        return
+        return 0
 
 
 if __name__ == '__main__':
@@ -93,5 +94,8 @@ if __name__ == '__main__':
     print("current os is:" + sys_name + "\nwhere is host:" + hosts)
     github_urls = get_url()
     ips = get_ip(github_urls)
-    print(ips)
-    update_host_file(hosts,github_urls,ips)
+    flag = update_host_file(hosts,github_urls,ips)
+    if sys_name == 'Windows' and flag == 1:
+        result = os.system('ipconfig /flushdns')
+    else:
+        pass
